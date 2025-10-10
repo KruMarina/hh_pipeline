@@ -32,9 +32,6 @@ pip install requests
 python run_etl.py "название вакансии"  # например: 'Data Engineer'
 ```
 
-## Эволюция проекта
-
-
 
 ## Эволюция проекта
 
