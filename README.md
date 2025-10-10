@@ -29,7 +29,10 @@
 
 ```bash
 pip install requests
-python src/run_etl.py "название вакансии" (например, 'Data Engineer')
+python run_etl.py "название вакансии"  # например: 'Data Engineer'
+```
+
+## Эволюция проекта
 
 
 
