@@ -3,7 +3,6 @@
 import subprocess    # для запуска других программ
 import sys
 import logging
-import os
 from pathlib import Path
 from datetime import datetime
 
