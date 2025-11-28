@@ -1,10 +1,16 @@
 import csv
+import sys
 from pathlib import Path
 
 
 def main():
-    input_dir = Path('../../data/partitioned')
-    output_file = Path('../../data/partitioned/concatenated.csv')
+    
+    if 'run_etl.py' in ' '.join(sys.argv):
+        input_dir = Path('../../data/partitioned')
+        output_file = Path('../../data/partitioned/concatenated.csv')
+    else:
+        input_dir = Path('/tmp/airflow_data/partitioned')
+        output_file = Path('/tmp/airflow_data/partitioned/concatenated.csv')
 
     csv_files = [
         f for f in input_dir.iterdir() 

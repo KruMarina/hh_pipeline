@@ -4,6 +4,9 @@ import json
 import urllib.parse
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).parent.parent))
+from config import PATHS
+
 
 def main():
     if len(sys.argv) != 2:
@@ -21,7 +24,11 @@ def main():
 
     data = response.json()   # делаем словарь из текста
     
-    output_path = Path('../../data/raw/hh.json')   # делает правильные разделители для всех ОС
+    if 'run_etl.py' in ' '.join(sys.argv):
+        output_path = Path('../../data/raw/hh.json')
+    else:
+        output_path = PATHS['raw_json']
+        
     output_path.parent.mkdir(parents=True, exist_ok=True)
     
     with open(output_path, 'w', encoding='utf-8') as f:

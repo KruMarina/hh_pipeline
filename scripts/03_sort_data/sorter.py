@@ -1,12 +1,20 @@
 import csv
 import os
+import sys
 from pathlib import Path
+sys.path.insert(0, str(Path(__file__).parent.parent))
+from config import PATHS
 
+sys.path.insert(0, str(Path(__file__).parent.parent))
 
 def main():
 
-    input_file = Path('../../data/raw/hh.csv')
-    output_file = Path('../../data/processed/hh_sorted.csv')
+    if 'run_etl.py' in ' '.join(sys.argv):
+        input_file = Path('../../data/raw/hh.csv')
+        output_file = Path('../../data/processed/hh_sorted.csv')
+    else:
+        input_file = PATHS['raw_csv']
+        output_file = PATHS['processed_sorted']
 
     output_file.parent.mkdir(parents=True, exist_ok=True)
 

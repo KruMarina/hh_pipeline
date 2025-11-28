@@ -3,6 +3,8 @@ import sys
 import sqlite3
 from pathlib import Path
 import logging
+sys.path.insert(0, str(Path(__file__).parent.parent))
+from config import PATHS
 
 
 logging.basicConfig(
@@ -15,13 +17,9 @@ logger = logging.getLogger(__name__)
 
 
 
-def save_to_sqlite(data):
+def save_to_sqlite(data, db_path):
 
     try:
-
-        project_root = Path(__file__).parent.parent.parent
-        db_path = project_root / 'data' / 'databases' / 'hh_vacancies.db'
-
         db_path.parent.mkdir(parents=True, exist_ok=True)
 
         conn = sqlite3.connect(str(db_path))
@@ -62,8 +60,15 @@ def save_to_sqlite(data):
         return False
 
 def main():
-    input_file = Path('../../data/processed/hh_positions.csv')
-    output_file = Path('../../data/processed/hh_uniq_positions.csv')
+
+    if 'run_etl.py' in ' '.join(sys.argv):
+        input_file = Path('../../data/processed/hh_positions.csv')
+        output_file = Path('../../data/processed/hh_uniq_positions.csv')
+        db_path = Path('../../data/databases/hh_vacancies.db')
+    else:
+        input_file = PATHS['processed_positions']
+        output_file = PATHS['processed_uniq']
+        db_path = PATHS['database']
 
     output_file.parent.mkdir(parents=True, exist_ok=True)
 
@@ -91,7 +96,7 @@ def main():
         writer.writerows(data_for_csv)
 
     # в SQLite
-    if save_to_sqlite(data_for_db):
+    if save_to_sqlite(data_for_db, db_path):
         logger.info("Данные успешно сохранены в SQLite базу")
     else:
         logger.warning("Данные сохранены только в CSV")
